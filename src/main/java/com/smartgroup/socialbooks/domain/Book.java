@@ -3,14 +3,30 @@ package com.smartgroup.socialbooks.domain;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 public class Book {
 	
+	@JsonInclude(value = Include.NON_NULL)
 	private Long id;
+	
+	@JsonInclude(value = Include.NON_NULL)
 	private String name;
+	
+	@JsonInclude(value = Include.NON_NULL)
 	private Date release;
+	
+	@JsonInclude(value = Include.NON_NULL)
 	private String publisher;
+	
+	@JsonInclude(value = Include.NON_NULL)
 	private String summary;
+	
+	@JsonInclude(value = Include.NON_NULL)
 	private List<Comment> comments;
+	
+	@JsonInclude(value = Include.NON_NULL)
 	private String author;
 	
 	public Book() {}
