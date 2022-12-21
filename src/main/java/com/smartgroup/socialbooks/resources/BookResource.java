@@ -37,4 +37,9 @@ public class BookResource {
 		bookRepository.save(book);
 	}
 	
+	@RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
+	public void delete(@PathVariable Long id) {
+		bookRepository.deleteById(id);
+	}
+	
 }
