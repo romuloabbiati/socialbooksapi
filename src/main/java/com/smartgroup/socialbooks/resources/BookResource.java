@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,8 +26,9 @@ public class BookResource {
 	private BookRepository bookRepository;
 
 	@RequestMapping(method = RequestMethod.GET)
-	public List<Book> findAll() {
-		return bookRepository.findAll();
+	public ResponseEntity<List<Book>> findAll() {
+		List<Book> booksList = bookRepository.findAll();
+		return ResponseEntity.ok(booksList);
 	}
 	
 	@RequestMapping(path = "/{id}", method = RequestMethod.GET)
@@ -48,14 +50,21 @@ public class BookResource {
 	}
 	
 	@RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
-	public void delete(@PathVariable Long id) {
-		bookRepository.deleteById(id);
+	public ResponseEntity<Void> delete(@PathVariable Long id) {
+		try {
+			bookRepository.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
+			return ResponseEntity.notFound().build();
+		}
+		return ResponseEntity.noContent().build();
 	}
 	
 	@RequestMapping(path = "/{id}", method = RequestMethod.PUT)
-	public void update(@PathVariable Long id, @RequestBody Book book) {
+	public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody Book book) {
 		book.setId(id);
 		bookRepository.save(book);
+		
+		return ResponseEntity.noContent().build();
 	}
 	
 }
