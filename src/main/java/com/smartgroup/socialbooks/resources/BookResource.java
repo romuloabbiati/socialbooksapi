@@ -14,7 +14,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.smartgroup.socialbooks.domain.Book;
 import com.smartgroup.socialbooks.services.BookService;
-import com.smartgroup.socialbooks.services.exceptions.ResourceNotFoundException;
 
 @RestController
 @RequestMapping(path = "/books")
@@ -31,12 +30,7 @@ public class BookResource {
 	
 	@RequestMapping(path = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Book> findById(@PathVariable Long id) {
-		Book book = null;
-		try {
-			book = bookService.findById(id);
-		} catch (ResourceNotFoundException e) {
-			return ResponseEntity.notFound().build();
-		}
+		Book book = bookService.findById(id);
 		return ResponseEntity.ok(book);
 	}
 	
@@ -46,29 +40,21 @@ public class BookResource {
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}").buildAndExpand(book.getId()).toUri();
-
 		
 		return ResponseEntity.created(uri).build();
 	}
 	
 	@RequestMapping(path = "/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
-		try {
-			bookService.delete(id);
-		} catch (ResourceNotFoundException e) {
-			return ResponseEntity.notFound().build();
-		}
+		bookService.delete(id);
+		
 		return ResponseEntity.noContent().build();
 	}
 	
 	@RequestMapping(path = "/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody Book book) {
 		book.setId(id);
-		try {
-			bookService.update(book);
-		} catch (ResourceNotFoundException e) {
-			return ResponseEntity.notFound().build();
-		}
+		bookService.update(book);
 		
 		return ResponseEntity.noContent().build();
 	}
