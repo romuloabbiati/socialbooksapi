@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -33,7 +33,7 @@ public class Book {
 	private String summary;
 	
 	@JsonInclude(value = Include.NON_NULL)
-	@Transient
+	@OneToMany(mappedBy = "book")
 	private List<Comment> comments;
 	
 	@JsonInclude(value = Include.NON_NULL)
@@ -77,9 +77,6 @@ public class Book {
 	}
 	public List<Comment> getComments() {
 		return comments;
-	}
-	public void setComments(List<Comment> comments) {
-		this.comments = comments;
 	}
 	public String getAuthor() {
 		return author;

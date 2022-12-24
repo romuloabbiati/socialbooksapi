@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.smartgroup.socialbooks.domain.Book;
+import com.smartgroup.socialbooks.domain.Comment;
 import com.smartgroup.socialbooks.services.BookService;
 
 @RestController
@@ -57,6 +58,18 @@ public class BookResource {
 		bookService.update(book);
 		
 		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping(path = "/{id}/comments", method = RequestMethod.POST)
+	public ResponseEntity<Void> addComment(
+			@PathVariable Long id, 
+			@RequestBody Comment comment) {
+		
+		bookService.addComment(id, comment);
+		
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
+		
+		return ResponseEntity.created(uri).build();
 	}
 	
 }

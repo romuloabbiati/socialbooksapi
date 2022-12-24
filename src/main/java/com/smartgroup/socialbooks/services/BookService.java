@@ -1,5 +1,6 @@
 package com.smartgroup.socialbooks.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,7 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.smartgroup.socialbooks.domain.Book;
+import com.smartgroup.socialbooks.domain.Comment;
 import com.smartgroup.socialbooks.repository.BookRepository;
+import com.smartgroup.socialbooks.repository.CommentRepository;
 import com.smartgroup.socialbooks.services.exceptions.ResourceNotFoundException;
 
 @Service
@@ -17,6 +20,9 @@ public class BookService {
 
 	@Autowired
 	private BookRepository bookRepository;
+	
+	@Autowired
+	private CommentRepository commentRepository;
 	
 	@Transactional(readOnly = true)
 	public List<Book> findAll() {
@@ -48,6 +54,17 @@ public class BookService {
 	public Book update(Book book) {
 		verifyIfExists(book);
 		return bookRepository.save(book);
+	}
+	
+	@Transactional
+	public void addComment(Long id, Comment comment) {
+		
+		Book book = findById(id);
+		
+		comment.setBook(book);
+		comment.setDate(new Date());
+		
+		commentRepository.save(comment);
 	}
 	
 	private void verifyIfExists(Book book) {
