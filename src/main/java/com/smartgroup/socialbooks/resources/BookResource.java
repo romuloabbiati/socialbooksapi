@@ -60,6 +60,13 @@ public class BookResource {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@RequestMapping(path = "/{id}/comments", method = RequestMethod.GET)
+	public ResponseEntity<List<Comment>> findCommentsByBook(@PathVariable Long id) {
+		List<Comment> comments = bookService.findCommentByBook(id);
+		
+		return ResponseEntity.ok(comments);
+	}
+	
 	@RequestMapping(path = "/{id}/comments", method = RequestMethod.POST)
 	public ResponseEntity<Void> addComment(
 			@PathVariable Long id, 

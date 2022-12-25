@@ -56,6 +56,13 @@ public class BookService {
 		return bookRepository.save(book);
 	}
 	
+	@Transactional(readOnly = true)
+	public List<Comment> findCommentByBook(Long id) {
+		Book book = findById(id);
+		
+		return book.getComments();
+	}
+	
 	@Transactional
 	public void addComment(Long id, Comment comment) {
 		
