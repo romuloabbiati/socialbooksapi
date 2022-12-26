@@ -10,7 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @Entity
 public class Comment {
@@ -19,7 +22,12 @@ public class Comment {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String text;
+	
+	@JsonInclude(content = Include.NON_NULL)
 	private String user;
+	
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	@JsonInclude(content = Include.NON_NULL)
 	private Date date;
 	
 	@ManyToOne(fetch = FetchType.LAZY)

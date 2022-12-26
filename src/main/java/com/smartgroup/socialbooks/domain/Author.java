@@ -9,7 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 @Entity
 public class Author {
@@ -20,8 +23,11 @@ public class Author {
 	
 	private String name;
 	
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	@JsonInclude(value = Include.NON_NULL)
 	private Date dateOfBirth;
 	
+	@JsonInclude(value = Include.NON_NULL)
 	private String nacionality;
 	
 	@OneToMany(mappedBy = "author")
