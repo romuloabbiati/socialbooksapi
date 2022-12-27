@@ -3,6 +3,8 @@ package com.smartgroup.socialbooks.resources;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,7 +37,7 @@ public class AuthorResource {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> save(@RequestBody Author author) {
+	public ResponseEntity<Void> save(@Valid @RequestBody Author author) {
 		authorService.save(author);
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()

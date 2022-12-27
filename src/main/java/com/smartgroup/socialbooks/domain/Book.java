@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -22,18 +25,20 @@ public class Book {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@JsonInclude(value = Include.NON_NULL)
+
+	@NotEmpty(message = "This name cannot be empty.")
 	private String name;
 	
 	@JsonFormat(pattern = "dd/MM/yyyy")
-	@JsonInclude(value = Include.NON_NULL)
+	@NotNull(message = "This field cannot be null.")
 	private Date release;
 	
-	@JsonInclude(value = Include.NON_NULL)
+	@NotNull(message = "This field cannot be null.")
 	private String publisher;
 	
 	@JsonInclude(value = Include.NON_NULL)
+	@NotNull(message = "This field cannot be null.")
+	@Size(max = 1500, message = "Summary cannot have more than 1500 characters.")
 	private String summary;
 	
 	@JsonInclude(value = Include.NON_EMPTY)
