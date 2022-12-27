@@ -2,10 +2,13 @@ package com.smartgroup.socialbooks.resources;
 
 import java.net.URI;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.CacheControl;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,7 +37,10 @@ public class BookResource {
 	@RequestMapping(path = "/{id}", method = RequestMethod.GET)
 	public ResponseEntity<Book> findById(@PathVariable Long id) {
 		Book book = bookService.findById(id);
-		return ResponseEntity.ok(book);
+		
+		CacheControl cacheControl = CacheControl.maxAge(20, TimeUnit.SECONDS);
+		
+		return ResponseEntity.status(HttpStatus.OK).cacheControl(cacheControl).body(book);
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
